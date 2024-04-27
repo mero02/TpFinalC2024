@@ -1,0 +1,103 @@
+# Project: tpfinalTMPL
+# Makefile created by Dev-C++ 5.11
+
+CPP      = g++.exe -D__DEBUG__
+CC       = gcc.exe -D__DEBUG__
+WINDRES  = windres.exe
+OBJ      = main.o lib/orm/orm.o lib/utils/utils.o src/localidad/localidad.o config/config.o lib/orm/query.o src/actividad/actividad.o src/transporte/transporte.o src/turista/turista.o src/tipo_actividad/tipo_actividad.o src/agencia/agencia.o src/det_factura_turista/det_factura_turista.o src/factura_turista/factura_turista.o src/forma_pago/forma_pago.o src/pais/pais.o src/paquete/paquete.o src/paquete_actividad/paquete_actividad.o src/tipo_paquete/tipo_paquete.o src/tipo_paquete_tipo_actividad/tipo_paquete_tipo_actividad.o src/agencia_tipo_paq/agencia_t_paquete.o view/view.o cmp/cmp.o insertar/insertar.o actualizar/actualizar.o seleccionar/seleccionar.o verificaciones/verifica.o
+LINKOBJ  = main.o lib/orm/orm.o lib/utils/utils.o src/localidad/localidad.o config/config.o lib/orm/query.o src/actividad/actividad.o src/transporte/transporte.o src/turista/turista.o src/tipo_actividad/tipo_actividad.o src/agencia/agencia.o src/det_factura_turista/det_factura_turista.o src/factura_turista/factura_turista.o src/forma_pago/forma_pago.o src/pais/pais.o src/paquete/paquete.o src/paquete_actividad/paquete_actividad.o src/tipo_paquete/tipo_paquete.o src/tipo_paquete_tipo_actividad/tipo_paquete_tipo_actividad.o src/agencia_tipo_paq/agencia_t_paquete.o view/view.o cmp/cmp.o insertar/insertar.o actualizar/actualizar.o seleccionar/seleccionar.o verificaciones/verifica.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib32" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32" -static-libgcc  "../../Program Files (x86)/PostgreSQL/lib/libpq.lib" -m32 -g3
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/PostgreSQL/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++" -I"C:/Program Files (x86)/PostgreSQL/include"
+BIN      = tpfinalTMPL.exe
+CXXFLAGS = $(CXXINCS) -m32 -g3
+CFLAGS   = $(INCS) -m32 -g3
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.c
+	$(CC) -c main.c -o main.o $(CFLAGS)
+
+lib/orm/orm.o: lib/orm/orm.c
+	$(CC) -c lib/orm/orm.c -o lib/orm/orm.o $(CFLAGS)
+
+lib/utils/utils.o: lib/utils/utils.c
+	$(CC) -c lib/utils/utils.c -o lib/utils/utils.o $(CFLAGS)
+
+src/localidad/localidad.o: src/localidad/localidad.c
+	$(CC) -c src/localidad/localidad.c -o src/localidad/localidad.o $(CFLAGS)
+
+config/config.o: config/config.c
+	$(CC) -c config/config.c -o config/config.o $(CFLAGS)
+
+lib/orm/query.o: lib/orm/query.c
+	$(CC) -c lib/orm/query.c -o lib/orm/query.o $(CFLAGS)
+
+src/actividad/actividad.o: src/actividad/actividad.c
+	$(CC) -c src/actividad/actividad.c -o src/actividad/actividad.o $(CFLAGS)
+
+src/transporte/transporte.o: src/transporte/transporte.c
+	$(CC) -c src/transporte/transporte.c -o src/transporte/transporte.o $(CFLAGS)
+
+src/turista/turista.o: src/turista/turista.c
+	$(CC) -c src/turista/turista.c -o src/turista/turista.o $(CFLAGS)
+
+src/tipo_actividad/tipo_actividad.o: src/tipo_actividad/tipo_actividad.c
+	$(CC) -c src/tipo_actividad/tipo_actividad.c -o src/tipo_actividad/tipo_actividad.o $(CFLAGS)
+
+src/agencia/agencia.o: src/agencia/agencia.c
+	$(CC) -c src/agencia/agencia.c -o src/agencia/agencia.o $(CFLAGS)
+
+src/det_factura_turista/det_factura_turista.o: src/det_factura_turista/det_factura_turista.c
+	$(CC) -c src/det_factura_turista/det_factura_turista.c -o src/det_factura_turista/det_factura_turista.o $(CFLAGS)
+
+src/factura_turista/factura_turista.o: src/factura_turista/factura_turista.c
+	$(CC) -c src/factura_turista/factura_turista.c -o src/factura_turista/factura_turista.o $(CFLAGS)
+
+src/forma_pago/forma_pago.o: src/forma_pago/forma_pago.c
+	$(CC) -c src/forma_pago/forma_pago.c -o src/forma_pago/forma_pago.o $(CFLAGS)
+
+src/pais/pais.o: src/pais/pais.c
+	$(CC) -c src/pais/pais.c -o src/pais/pais.o $(CFLAGS)
+
+src/paquete/paquete.o: src/paquete/paquete.c
+	$(CC) -c src/paquete/paquete.c -o src/paquete/paquete.o $(CFLAGS)
+
+src/paquete_actividad/paquete_actividad.o: src/paquete_actividad/paquete_actividad.c
+	$(CC) -c src/paquete_actividad/paquete_actividad.c -o src/paquete_actividad/paquete_actividad.o $(CFLAGS)
+
+src/tipo_paquete/tipo_paquete.o: src/tipo_paquete/tipo_paquete.c
+	$(CC) -c src/tipo_paquete/tipo_paquete.c -o src/tipo_paquete/tipo_paquete.o $(CFLAGS)
+
+src/tipo_paquete_tipo_actividad/tipo_paquete_tipo_actividad.o: src/tipo_paquete_tipo_actividad/tipo_paquete_tipo_actividad.c
+	$(CC) -c src/tipo_paquete_tipo_actividad/tipo_paquete_tipo_actividad.c -o src/tipo_paquete_tipo_actividad/tipo_paquete_tipo_actividad.o $(CFLAGS)
+
+src/agencia_tipo_paq/agencia_t_paquete.o: src/agencia_tipo_paq/agencia_t_paquete.c
+	$(CC) -c src/agencia_tipo_paq/agencia_t_paquete.c -o src/agencia_tipo_paq/agencia_t_paquete.o $(CFLAGS)
+
+view/view.o: view/view.c
+	$(CC) -c view/view.c -o view/view.o $(CFLAGS)
+
+cmp/cmp.o: cmp/cmp.c
+	$(CC) -c cmp/cmp.c -o cmp/cmp.o $(CFLAGS)
+
+insertar/insertar.o: insertar/insertar.c
+	$(CC) -c insertar/insertar.c -o insertar/insertar.o $(CFLAGS)
+
+actualizar/actualizar.o: actualizar/actualizar.c
+	$(CC) -c actualizar/actualizar.c -o actualizar/actualizar.o $(CFLAGS)
+
+seleccionar/seleccionar.o: seleccionar/seleccionar.c
+	$(CC) -c seleccionar/seleccionar.c -o seleccionar/seleccionar.o $(CFLAGS)
+
+verificaciones/verifica.o: verificaciones/verifica.c
+	$(CC) -c verificaciones/verifica.c -o verificaciones/verifica.o $(CFLAGS)

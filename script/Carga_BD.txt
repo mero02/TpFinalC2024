@@ -1,0 +1,86 @@
+-- insercion de datos en algunas tablas base.
+insert into localidad(cod_postal, nombre) values(9100,'Trelew'),(9103,'Rawson'),(9120,'Puerto Madryn');
+
+insert into forma_pago(codigo,forma) values(1,'Efectivo'),(2,'Debito Maestro'),(3,'Debito Visa'),(4,'Tarjeta Cred Visa');
+
+insert into pais(codigo,nombre) values(1,'Argentina'),(2,'Brasil'),(3,'Uruguay'),(4,'Chile'),(5,'Colombia');
+
+ALTER SEQUENCE agencia_codigo_seq RESTART WITH 1;
+INSERT INTO agencia (nombre, calle, nro, piso, dpto, codigo_postal, telefono1, telefono2) VALUES
+('Interturis', 'Mitre', '2', '1', 1, 9100, '011 111 222', '011 222 111'),
+('Extremturis', 'Belgrano', '1', '1', 1, 9120, '011 333 444', '011 222 444'),
+('Turismo total', 'Rivadavia', '3', '2', 2, 9120, '011 333 212', '011 444 222');
+
+INSERT INTO turista (dni, nombre, domicilio, telefono, cod_pais) VALUES
+(40383702, 'Matias', 'Mitre', '280441212', 1),
+(34908123, 'Roberto', 'Moreno', '011 28392', 2),
+(34512378, 'Valentina', 'Tello', '296512312', 1);
+
+ALTER SEQUENCE transporte_codigo_seq RESTART WITH 1;
+INSERT INTO transporte (dominio, descripcion, importe) VALUES
+('ABC123', 'Yate de lujo con capacidad para 10 personas, ideal para viajes marítimos privados', 25000),
+('DEF456', 'Autobús turístico con capacidad para 50 personas, perfecto para recorridos terrestres', 22000),
+('GHI789', 'Catamarán para excursiones acuáticas, con espacio para 20 personas', 27000),
+('JKL012', 'Furgoneta camper para aventuras en carretera, adecuada para 4 personas', 28000),
+('MNO345', 'Barco de pesca con capacidad para 8 personas, ideal para expediciones marítimas', 23000),
+('PQR678', 'Tren turístico que recorre paisajes pintorescos, con vagones para 100 pasajeros', 24000),
+('STU901', 'Lancha rápida para emocionantes paseos acuáticos, con capacidad para 6 personas', 26000),
+('', 'Sin transporte', 0);
+
+ALTER SEQUENCE tipo_actividad_codigo_seq RESTART WITH 1;
+INSERT INTO tipo_actividad (nombre, descripcion, duracion, nivel) VALUES
+('Avistaje de ballenas', 'Un emocionante viaje en barco para avistar ballenas en su hábitat natural', '04:00:00', 2),
+('Avistaje de delfines', 'Una experiencia única para avistar delfines juguetones en aguas cristalinas', '02:30:00', 1),
+('Avistaje de pingüinos', 'Una excursión para observar colonias de pingüinos en su entorno natural', '03:30:00', 2),
+('Avistaje de lobos marinos', 'Un recorrido en barco para contemplar la vida de los lobos marinos en las rocas costeras', '02:00:00', 1),
+('Avistaje de elefantes marinos', 'Una aventura para avistar majestuosos elefantes marinos descansando en la playa', '05:00:00', 3),
+('Safari de guanacos', 'Un safari fotográfico para avistar elegantes guanacos en la estepa patagónica', '03:30:00', 2),
+('Safari de avestruces', 'Una expedición para avistar avestruces en su hábitat natural en la llanura pampeana', '02:00:00', 1),
+('Trekking en montaña', 'Una desafiante caminata de día completo a través de senderos escarpados y vistas panorámicas', '08:00:00', 3),
+('Trekking en bosque', 'Una caminata tranquila por densos bosques, descubriendo cascadas y fauna silvestre', '05:00:00', 2),
+('Trekking en playa', 'Un relajante paseo por playas vírgenes, disfrutando del sonido de las olas y la brisa marina', '03:00:00', 1),
+('Trekking en desierto', 'Una expedición emocionante a través de dunas de arena y paisajes desérticos, explorando oasis ocultos', '06:00:00', 3);
+
+ALTER SEQUENCE tipo_paquete_codigo_seq RESTART WITH 1;
+INSERT INTO tipo_paquete (nombre, descripcion, duracion, nivel) VALUES
+('Avistaje', 'Un emocionante viaje en barco para avistar animales marinos en su hábitat natural', '2024-04-22 04:00:00', 2),
+('Trekking', 'Una desafiante caminata de día completo', '2024-04-22 08:00:00', 3),
+('Safari', 'Un safari fotográfico para avistar elegantes animales en la estepa patagónica', '2024-04-22 04:00:00', 2);
+
+
+INSERT INTO agencia_tipo_paquete (cod_agencia,cod_tipo_paquete) VALUES
+(1,1),
+(2,2),
+(3,3);
+
+ALTER SEQUENCE actividad_codigo_seq RESTART WITH 1;
+INSERT INTO actividad (cod_tipo_actividad, cod_transporte,importe, nivel) VALUES
+(1, 3, 65000, 2),
+(6, 4, 78000, 2),
+(9, 8, 20000, 2);
+
+ALTER SEQUENCE paquete_codigo_seq RESTART WITH 1;
+INSERT INTO paquete (cod_tipo_paquete, cod_agencia,fecha,dni_turista, nivel) VALUES
+(1,1,'2024-04-22',40383702,2),
+(2,2,'2024-04-22',34512378,2),
+(3,3,'2024-04-22',40383702,2);
+
+INSERT INTO paquete_actividad (cod_paquete, cod_actividad, importe,fecha_hora_desde,fecha_hora_hasta,detalle) VALUES
+(1,1,78000,'2024-03-22 04:00:00','2024-08-22 04:00:00','viaje increible'),
+(2,2,88000,'2024-03-22 04:00:00','2024-05-22 04:00:00','viaje fabuloso'),
+(3,3,56000,'2024-01-22 04:00:00','2024-02-22 04:00:00','viaje genial');
+
+INSERT INTO tipo_paquete_tipo_actividad (cod_tipo_paquete, cod_tipo_actividad) VALUES
+(1,1),
+(2,2),
+(3,3);
+
+INSERT INTO factura_turista (nro, serie,letra,fecha,dni_turista,cod_forma_pago,det_pago) VALUES
+(1,1,'A','2024-04-22',40383702,1,'Detalle'),
+(2,3,'B','2024-04-22',40383702,1,'Sin detalles'),
+(2,4,'C','2024-04-22',40383702,1,'Pago completo');
+
+INSERT INTO det_factura_turista (nro_fact, serie_fact, letra_fact, nro_renglon, cod_paquete, importe) VALUES
+(1,1,'A',1,1,78000),
+(2,3,'B',1,2,88000),
+(2,4,'C',1,3,56000);
