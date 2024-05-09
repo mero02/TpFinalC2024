@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <ctype.h>
+#include <math.h>
 
 #include "../includes/includes.h"
 
@@ -911,44 +912,49 @@ void exportarListaTuristas(void *listT, int sizeT, int codPais) {
     char nombreArchivo[100];
     FILE *archivo;
     int i;
-    
+
     // Solicitar al usuario el nombre del archivo
     fechaActual();
     printf("Ingrese el nombre del archivo para exportar los turistas: ");
     scanf("%99s", nombreArchivo);
-    
+
     // Abrir el archivo para escritura
     archivo = fopen(nombreArchivo, "w");
-    
     if (archivo == NULL) {
-    	system("cls");
+        system("cls");
         printf("Error al abrir el archivo %s para escritura.\n", nombreArchivo);
         system("PAUSE");
         return;
     }
-    
-    // Iterar a través de la lista de turistas
+
+    int maxLenNombre = strlen("Nombre");
+    int maxLenPais = strlen("Pais");
     for (i = 0; i < sizeT; i++) {
         obj_Turista *turista = ((obj_Turista **)listT)[i];
-        
-        // Obtener los datos del turista
+        char *nombre = turista->getNombre(turista);
+        obj_Pais *pais = turista->getPaisObj(turista);
+        char *nombrePais = pais->getNombre(pais);
+        maxLenNombre = fmax(maxLenNombre, strlen(nombre));
+        maxLenPais = fmax(maxLenPais, strlen(nombrePais));
+    }
+
+    // Imprimir la línea de encabezado
+    fprintf(archivo, "%-*s  %-*s  %-*s\n", maxLenNombre, "Nombre", 8, "DNI", maxLenPais, "Pais");
+
+    // Imprimir los datos de los turistas
+    for (i = 0; i < sizeT; i++) {
+        obj_Turista *turista = ((obj_Turista **)listT)[i];
         char *nombre = turista->getNombre(turista);
         int dni = turista->getDni(turista);
         obj_Pais *pais = turista->getPaisObj(turista);
-        char *nombrePais = pais->getNombre(pais); // Obtener el nombre del país del objeto `obj_Pais`
-        
-        if(pais->getCodigo(pais)==codPais){
-        	// Escribir los datos en el archivo utilizando `fprintf` y los especificadores de formato adecuados
-	        fprintf(archivo, "Nombre: %s\n", nombre);
-	        fprintf(archivo, "DNI: %d\n", dni);
-	        fprintf(archivo, "País: %s\n", nombrePais);
-	        fprintf(archivo, "\n"); // Separar cada turista con una línea vacía
-		}
+        char *nombrePais = pais->getNombre(pais);
+        if (pais->getCodigo(pais) == codPais) {
+            fprintf(archivo, "%-*s  %-8d  %-*s\n", maxLenNombre, nombre, dni, maxLenPais, nombrePais);
+        }
     }
-    
+
     // Cerrar el archivo
     fclose(archivo);
-    
     printf("Exportación completada. Los datos han sido guardados en %s.\n", nombreArchivo);
 }
 /********************************************************************************************************
@@ -960,39 +966,42 @@ void exportarListaPaquetes(void *list, int size) {
     char nombreArchivo[100];
     FILE *archivo;
     int i;
-    
+
     // Solicitar al usuario el nombre del archivo
     fechaActual();
     printf("Ingrese el nombre del archivo para exportar los paquetes: ");
     scanf("%99s", nombreArchivo);
-    
+
     // Abrir el archivo para escritura
     archivo = fopen(nombreArchivo, "w");
-    
     if (archivo == NULL) {
-    	system("cls");
+        system("cls");
         printf("Error al abrir el archivo %s para escritura.\n", nombreArchivo);
         system("PAUSE");
         return;
     }
-    
-    // Iterar a través de la lista de turistas
+
+    // Determinar el ancho de campo necesario para cada columna
+    int maxLenFecha = strlen("Fecha de adquisicion");
     for (i = 0; i < size; i++) {
-	    obj_Paquete *paquete = ((obj_Paquete **)list)[i];
-	    int codAgencia = paquete->getCodAgencia(paquete);
-	    int codpaquete = paquete->getCodTipoPaquete(paquete);
-	    char *fecha = paquete->getFecha(paquete);
-	    int nivel = paquete->getNivel(paquete);
-        // Escribir los datos en el archivo utilizando `fprintf` y los especificadores de formato adecuados
-        fprintf(archivo, "Codigo agencia: %d\n", codAgencia);
-	    fprintf(archivo, "Codigo paquete: %d\n", codpaquete);
-	    fprintf(archivo, "Fecha de adquisicion: %s\n", fecha);
-	    fprintf(archivo, "Nivel: %d\n", nivel);
-	    fprintf(archivo, "\n"); // Separar con una línea vacía
+        obj_Paquete *paquete = ((obj_Paquete **)list)[i];
+        char *fecha = paquete->getFecha(paquete);
+        maxLenFecha = fmax(maxLenFecha, strlen(fecha));
     }
-    
-    // Cerrar el archivo
+
+    // Imprimir la línea de encabezado
+    fprintf(archivo, "%-*s  %-*s  %-*s  %-*s\n", 16, "Codigo agencia", 16, "Codigo paquete", maxLenFecha, "Fecha de adquisicion", 8, "Nivel");
+
+    // Imprimir los datos de los paquetes
+    for (i = 0; i < size; i++) {
+        obj_Paquete *paquete = ((obj_Paquete **)list)[i];
+        int codAgencia = paquete->getCodAgencia(paquete);
+        int codpaquete = paquete->getCodTipoPaquete(paquete);
+        char *fecha = paquete->getFecha(paquete);
+        int nivel = paquete->getNivel(paquete);
+        fprintf(archivo, "%-16d  %-16d  %-*s  %-8d\n", codAgencia, codpaquete, maxLenFecha, fecha, nivel);
+    }
+	// Cerrar el archivo
     fclose(archivo);
-    
     printf("Exportación completada. Los datos han sido guardados en %s.\n", nombreArchivo);
 }
