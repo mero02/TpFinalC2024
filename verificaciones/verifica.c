@@ -141,7 +141,7 @@ char *validarTelefono(char *msj_pant){
 	int flag;
 	char *telefono;
 	do{
-		telefono = leerCadena(msj_pant,MAX50);
+		telefono = leerCadenaNoObligatorio(msj_pant,MAX50);
 		if (!esEntero(telefono)) {
 			system("cls");
 	        printf("Error: Por favor, ingrese un numero de telefono valido.\n");

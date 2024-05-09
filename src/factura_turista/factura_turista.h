@@ -40,7 +40,9 @@
 
 	}obj_FacturaTurista;
 	// funcionalidad publica que se implementa en FacturaTurista.c
+	extern obj_FacturaTurista *FacturaTurista_new_Letra_Serie(char *letra);
 	extern obj_FacturaTurista *FacturaTurista_new ();
+	
 	// meta data para acceder a las FacturaTuristas - definicion de las columnas de la tabla
 	static Column cols_FacturaTurista[CNT_COL_FACTURA_]=
 	{ 

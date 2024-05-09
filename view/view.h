@@ -1,5 +1,6 @@
 int leerEntero(char *msj_pant);
 char *leerCadena(char *msj_pant, int max_cad);
+char *leerCadenaNoObligatorio(char *msj_pant, int max_cad);
 float leerFloat(char *msj_pant);
 int leerEnteroEnRango(char *msj_pant, int min,int max);
 void toLowerCase(char *cadena);

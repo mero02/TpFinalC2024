@@ -115,9 +115,11 @@ int leerEntero(char *msj_pant ){
         if (entrada[strlen(entrada) - 1] == '\n') {
             entrada[strlen(entrada) - 1] = '\0';
         }
-        
-        // Verificar si la entrada es un número entero
-        if (!esEntero(entrada)) {
+        // Verificar si la entrada está vacía
+        if (strlen(entrada) == 0) {
+            printf("Error: No se ha ingresado ningun valor.\n");
+            system("PAUSE");
+        }else if (!esEntero(entrada)) {
             printf("Error: al leer entrada\nUSO: Debes ingresar un numero entero.\n");
             system("PAUSE");
         } else {
@@ -125,7 +127,7 @@ int leerEntero(char *msj_pant ){
             valor = atoi(entrada);
             return valor;
         }
-    } while (true);
+    } while (1);
 }
 /********************************************************************************************************
 |	Que Hace: Muestra un mensaje y solicita la entrada de un valor tipo entero, delimitado en un rango.
@@ -258,6 +260,53 @@ char *leerCadena(char *msj_pant, int max_cad) {
 	        printf("Error: al leer entrada\nUSO: Debes ingresar una cadena de texto mayor a 2 caracteres.\n");
 	        bandera = 1;
 	        system("PAUSE");
+	    }
+		
+	    // Verificar el tamaño de la cadena
+	    if (strlen(valor) > max_cad - 1) { // Restar 1 para dejar espacio para el carácter nulo
+	        printf("Error: al leer entrada\nUSO: Debes ingresar una cadena de texto menor a %d.\n",max_cad);
+	        bandera = 1;
+	        system("PAUSE");
+	    }
+	}while(bandera);
+
+    return valor;
+}
+
+/********************************************************************************************************
+|	Que Hace: Muestra un mensaje y solicita la entrada de una cadena de texto, delimitada por un maximo.
+|	Pre-condiciones: m = M; mc = MC;
+|	Post-condiones: v = V; Donde V es una cadena de texto y esta delimitada por MC.
+********************************************************************************************************/
+char *leerCadenaNoObligatorio(char *msj_pant, int max_cad) {
+	int bandera;
+	char *valor = (char *)malloc(max_cad * sizeof(char)); // Reserva memoria dinámica
+
+    if (valor == NULL) {
+        fprintf(stderr, "Error: No se pudo asignar memoria.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    do{
+    	bandera = 0;
+    	printf("%s\n", msj_pant);
+	    fflush(stdin);
+		
+	    // Leer la cadena con fgets para manejar correctamente los espacios en blanco
+	    if (fgets(valor, max_cad, stdin) == NULL) {
+	        fprintf(stderr, "Error: al leer entrada\nUSO: Debes ingresar una cadena de texto no vacia.\n");
+	        exit(EXIT_FAILURE);
+	    }
+	
+	    // Eliminar el carácter de nueva línea del final, si está presente
+	    size_t len = strlen(valor);
+	    if (len > 0 && valor[len - 1] == '\n') {
+	        valor[len - 1] = '\0';
+	    }
+		
+		// Verificar el tamaño de la cadena
+	    if (strlen(valor) < 1) { // Restar 1 para dejar espacio para el carácter nulo
+	        strcpy(valor,"00");
 	    }
 		
 	    // Verificar el tamaño de la cadena

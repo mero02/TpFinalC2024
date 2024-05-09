@@ -5,6 +5,8 @@
 #include "../turista/turista.h"
 #include "factura_turista.h"
 
+#include <string.h>
+
 THIS(obj_FacturaTurista)// crea definicion de funcion this para este modulo. .. Macro en config.h
 
 //----------------------------------------------------
@@ -148,6 +150,48 @@ static void *init_FacturaTurista(void *self)
 	obj->getTuristaObj  = getFacturaTurista_TuristaObj_Impl;
   return obj;
 }
+
+obj_FacturaTurista *FacturaTurista_new_Letra_Serie(char *letra)
+{
+	obj_FacturaTurista *rta,*obj = FacturaTurista_new(),*itm;
+	char sql[MAX_SQL];
+	void *list;
+	int i, size;
+	memset(sql,'\0',MAX_SQL);
+	sprintf(sql,"letra='%s' order by nro desc,serie desc",letra);
+	size = obj->findAll(obj,&list,sql);
+	if(size>0)
+	{  
+		itm = ((obj_FacturaTurista **)list)[0];
+	 	rta= FacturaTurista_new();
+	 	rta->setLetra(rta,letra);
+	 	rta->setSerie(rta,itm->getSerie(itm));
+	 	rta->setNro(rta,itm->getNro(itm)+1);
+	 	//Si se desea manejar un incremento de la serie dada una numeracion de facturas, se puede incrementar
+	 	// o sea si Nro > un MAX, se avanza a nueva Serie y Nro comienza en 1 de nuevo en esa letra
+	 	/* //opcional
+	 	  if(itm->getNro(itm)+1>MAX_NRO_FACT_LETRA)
+	 	    {
+	 	    	rta->setNro(rta,1);
+	 	    	rta->setSerie(rta,rta->getSerie(rta)+1);
+	 		}
+	 	*/
+	 	destroyObjList(list,size);
+	 	destroyObj(obj);
+		return rta;
+	}
+	else
+	{
+		rta= FacturaTurista_new();
+	 	rta->setLetra(rta,letra);
+	 	rta->setSerie(rta,1);
+	 	rta->setNro(rta,1);
+	 	destroyObj(obj);
+		return rta;
+	}
+}
+
+
 //----------------------------------------------------
 //constructor de FacturaTurista
 obj_FacturaTurista *FacturaTurista_new()

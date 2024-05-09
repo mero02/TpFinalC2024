@@ -26,7 +26,7 @@ void insertarTurista(){
 	int dni;
 	fechaActual();
 	printf("Ingrese datos del turista:\n---------------------");
-	dni = leerEntero("\nIngrese el dni:");
+	dni = leerEntero("\nIngrese el dni: *");
 	
 	if (turistaLista->findbykey(turistaLista,dni) != NOT_FOUND){
 		system("cls");
@@ -35,9 +35,9 @@ void insertarTurista(){
     	obj_Turista *turista;
 		turista = Turista_new();
 		turista->setDni(turista, dni);
-		turista->setNombre(turista,validarCadena("\nIngrese el nombre:"));
-		turista->setDomicilio(turista,leerCadena("\nIngrese el domicilio:",MAX150));
-		turista->setTelefono(turista,validarTelefono("Ingrese el telefono:"));
+		turista->setNombre(turista,validarCadena("\nIngrese el nombre: *"));
+		turista->setDomicilio(turista,leerCadena("\nIngrese el domicilio: *",MAX150));
+		turista->setTelefono(turista,validarTelefono("Ingrese el telefono: "));
 		turista->setCodPais(turista,seleccionarPais());
 		turista->saveObj(turista);
 		system("cls");
@@ -67,7 +67,7 @@ void insertarAgencia(){
 	fechaActual();
 	printf("Ingrese datos de la Agencia:\n---------------------");
 	char *NroAg; 
-	NroAg = leerCadena("\nIngrese Numero de agencia:",MAX7);
+	NroAg = leerCadena("\nIngrese Numero de agencia: *",MAX7);
 
 	if (verificaAgencia(list,size,NroAg)){
 		system("cls");
@@ -76,12 +76,12 @@ void insertarAgencia(){
     	obj_Agencia *agencia;
 		agencia = Agencia_new();
 		
-		agencia->setNombre(agencia,leerCadena("\nIngrese el nombre de la agencia",MAX90));
+		agencia->setNombre(agencia,leerCadena("\nIngrese el nombre de la agencia *",MAX90));
 		agencia->setNro(agencia,NroAg);
-		agencia->setCalle(agencia,leerCadena("\nIngrese el nombre de la calle donde se encuntra la agencia",MAX150));
+		agencia->setCalle(agencia,leerCadena("\nIngrese el nombre de la calle donde se encuntra la agencia *",MAX150));
 		agencia->setCodigoPostal(agencia,seleccionarCodP());
-		agencia->setDpto(agencia,leerEntero("\nIngrese el numero de departamento"));
-		agencia->setPiso(agencia,leerCadena("\nIngrese el piso",MAX7));
+		agencia->setDpto(agencia,leerEntero("\nIngrese el numero de departamento *"));
+		agencia->setPiso(agencia,leerCadena("\nIngrese el piso *",MAX7));
 		agencia->setTelefono1(agencia,validarTelefono("Ingrese el telefono 1:"));
 		agencia->setTelefono2(agencia,validarTelefono("Ingrese el telefono 2:"));
 		agencia->saveObj(agencia);
@@ -113,7 +113,7 @@ void insertarLocalidad(){
 	qsort(list,size,sizeof(obj_Localidad*),cmpNomLoc);
 	fechaActual();
 	listar("Localidades en el sistema: " ,list,size);
-	codigo = leerEnteroEnRango("\nIngrese el codigo postal de la localidad: ",MINCODPOSTAL,MAXCODPOSTAL);
+	codigo = leerEnteroEnRango("\nIngrese el codigo postal de la localidad: *",MINCODPOSTAL,MAXCODPOSTAL);
 
 	if (loc->findbykey(loc,codigo)!= NOT_FOUND){       
 		system("cls");
@@ -122,7 +122,7 @@ void insertarLocalidad(){
 	else{
     	obj_Localidad *loc;
     	loc = Localidad_new();
-    	loc->setNombre(loc,validarCadena("\nIngrese el nombre de la localidad:"));
+    	loc->setNombre(loc,validarCadena("\nIngrese el nombre de la localidad: *"));
     	loc->setCodPostal(loc,codigo);
     	loc->saveObj(loc);
     	destroyObj(loc);
@@ -150,7 +150,7 @@ void insertarPais(){
 	qsort(list,size,sizeof(obj_Pais*),cmpCodPais);
 	fechaActual();
 	listar("Paises cargados en el sistema:",list,size);
-	nombre = validarCadena("\nIngrese el nombre del pais:");
+	nombre = validarCadena("\nIngrese el nombre del pais: *");
 
 	if (verificaPais(list,size,nombre)){
 		system("cls");
@@ -294,28 +294,13 @@ void crearFactura() {
         
         fechaActual();
         printf("Crear factura:\n______________\nIngrese datos del turista:\n---------------------");
-        dni = leerEntero("\nIngrese el DNI:");
+        dni = leerEntero("\nIngrese el DNI: *");
 
         if (turistaLista->findbykey(turistaLista,dni) != NOT_FOUND) {
-            obj_FacturaTurista *facturaLista;
-            facturaLista = FacturaTurista_new();
-
-            size = facturaLista->findAll(facturaLista, &list, NULL);
-            qsort(list, size, sizeof(obj_FacturaTurista*), cmpCodFactura);
-
-            destroyObj(facturaLista);
-            
-            do {
-                nro = leerEntero("\nIngrese el numero de factura:");
-                serie = leerEntero("\nIngrese el numero de serie de la factura:");
-                letra = leerLetra("\nIngrese la letra de la factura:", MAX1);
-            } while (validarFactura(list, size, nro, serie, letra));
 
             obj_FacturaTurista *factura;
-            factura = FacturaTurista_new();
-            factura->setNro(factura, nro);
-            factura->setSerie(factura, serie);
-            factura->setLetra(factura, letra);
+            
+            factura = FacturaTurista_new_Letra_Serie (leerLetra("\nIngrese la letra de la factura:", MAX1));
             factura->setFecha(factura, getFechaHora());
             factura->setDniTurista(factura, dni);
             factura->setCodFormaPago(factura, seleccionarFormaDePago());
@@ -323,8 +308,8 @@ void crearFactura() {
             factura->saveObj(factura);
 
             printf("\nSe creo la factura.\n");
-
-            insertarDetalleFactura(nro, serie, letra);
+			
+            insertarDetalleFactura(factura->getNro(factura), factura->getSerie(factura), factura->getLetra(factura));
             destroyObj(factura);
             bandera = 0;
         } else {
